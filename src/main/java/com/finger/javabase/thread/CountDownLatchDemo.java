@@ -6,17 +6,17 @@ import java.util.concurrent.CountDownLatch;
  * @Author: hushuai
  * @Date: 19-11-10 下午4:09
  * @Description 闭锁Demo
- * 场景：公司组织要去春游，小伙伴到了后都必须签到，所有人员签到完毕后才可以出发，否则不能出发。
+ * 场景：100米赛跑，裁判员要等所有运动员准备好后才能鸣枪。
  */
 public class CountDownLatchDemo {
 
-    private void arrive(int people) {
+    private void demo(int people) {
         CountDownLatch countDownLatch = new CountDownLatch(people);
         for (int i = 0; i < people; i++) {
             Thread thread = new Thread(() -> {
                 try {
                     Thread.sleep(5000L);
-                    System.out.println("签到成功！");
+                    System.out.println("准备好了！");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
@@ -26,16 +26,16 @@ public class CountDownLatchDemo {
             thread.start();
         }
         try {
-            // 等所有人员签到成功则出发
-            System.out.println("等待中.......");
+            // 等所有人员准备好后鸣枪
+            System.out.println("裁判员等待中.......");
             countDownLatch.await();
-            System.out.println("人员全部签到完毕，出发！！！");
+            System.out.println("人员全部准备好了，鸣枪！！！");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
     public static void main(String[] args) {
-        new CountDownLatchDemo().arrive(5);
+        new CountDownLatchDemo().demo(10);
     }
 }
